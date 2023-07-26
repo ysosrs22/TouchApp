@@ -1,4 +1,4 @@
-const express               = require('express');
+const express = require('express');
 const { ApolloServer, gql } = require('apollo-server');
 const startStandaloneServer = require ('@apollo/server/standalone');
 const mongoose = require ('mongoose') ;
@@ -7,9 +7,10 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = require('./config');
 const authenticate = require('./authMiddleware');
 const shortid = require('shortid');
+const port = process.env.PORT || 4000;
 
 
-mongoose.connect("mongodb://127.0.0.1:27017/TouchApp", {
+mongoose.connect("mongodb+srv://Hamza:Hamza2000@lepointsurlei.92gvkme.mongodb.net/?retryWrites=true&w=majority", {
   useNewUrlParser: true
 }).then(() => {
     console.log('Connected to MongoDB');
@@ -18,7 +19,7 @@ mongoose.connect("mongodb://127.0.0.1:27017/TouchApp", {
     console.error('Error connecting to MongoDB:', error);
 });
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({ 
   username: String,
   password: String,
   role: {
@@ -626,6 +627,6 @@ const server = new ApolloServer({ typeDefs, resolvers,  playground: false,
 const app = express();
 app.use(authenticate);
 
-server.listen().then(({ url }) => {
-  console.log(`🚀 Server ready at ${url}`);
+server.listen(port).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
 });
